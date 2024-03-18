@@ -1,0 +1,163 @@
+:root{
+    --main-color: #065F46;
+    --margin: 16px;
+    --padding: 8px;
+    --black: #0A0A0A;
+}
+body{
+    margin: 0;
+    font-family: sans-serif;
+    padding-bottom: 48px;
+    /* min-height: 100vh; */
+}
+
+#navbar{
+    background-color: var(--black);
+    color: white;
+    margin: 0;
+    padding: 16px;
+    text-align: center;
+}
+#navbar h4{
+    margin: 0;
+}
+
+#graph-container{
+    /* width: 80%; */
+    margin: var(--margin) var(--margin) 0 var(--margin);
+    text-align: center;
+    align-items: center;
+    padding-bottom: 2px; /*have to do this because it's offset by 14, and my default margin is 16*/
+}
+#graph{
+    background-image: linear-gradient(
+    to bottom, 
+    /* black 0%,  */
+    /* #14275f 20%,  */
+    #1E40AF 0%,
+    #3369ff00 40%, 
+    #3369ff00 60%, 
+    #1E40AF 100%
+    /* #081027 95% */
+    /* black 100% */
+  ),
+  url('starry-sky.jpeg');
+  
+    position: relative;
+    display: flex;
+    width: 100%;
+    padding-top: 65%;
+    border-radius:  8px;
+    border: 3px solid var(--main-color);
+    box-sizing: border-box;
+    z-index: 2;
+}
+#graph-bottom{
+    position: relative;
+    display: flex;
+    
+    top: -14px;
+    width: 100%;
+    background-color: var(--main-color);
+    border-radius: 8px;
+    padding-top: 12px;
+    z-index: 1;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+}
+.arrow{
+    background-color: #FAFAFA;
+    margin: 10px;
+    border-radius: 6px;
+    padding: 2px 4px 4px;
+}
+
+ul{
+    list-style: none;
+    padding: 0;
+    margin: var(--margin);
+}
+li{
+    border-radius: 6px;
+    padding: 12px;
+    border: 2px solid var(--main-color);
+    box-sizing: border-box;
+}
+li + li{
+    margin-top: var(--padding);
+}
+/* li:nth-child(even){
+    background-color: #D1FAE5;
+} */
+.entry-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* width: 100%; */
+    white-space: nowrap;
+}
+.entry-content #time {
+    margin-right: 16px; /* Ensures spacing between the time and note */
+}
+.note {
+    color: #737373;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 90%;
+    flex-grow: 1;
+    overflow-wrap: break-word;
+    /* hyphens: auto; */ /*Use this only if the users want. but it makes it hyphenate too frequently imo*/
+}
+
+#footer{
+    background-color: var(--black);
+    height: 48px;
+    color: white;
+    /* align-items: center; */
+    justify-content: space-evenly;
+    position: fixed;
+    bottom: 0;
+    display: flex;
+    padding: 0;
+    /* width: 100%; */
+}
+#footer .btn{
+    display: flex;
+    background-color: #0A0A0A;
+    color: white;
+    border-top-style: none;
+    border-bottom-style: none;
+    border-right: 2px solid var(--main-color);
+    border-left: 2px solid var(--main-color);
+    border-radius: 0;
+    align-items: center; /*vertical align*/
+    justify-content: center; /*horizontal align*/
+}
+
+#footer .btn:hover, #footer .btn:focus{
+    background-color: var(--main-color);
+}
+
+#plus-button{
+    font-size: 36px;
+}
+
+#popup-container{
+    /* display: none; */
+    flex-direction: row;
+    position: absolute;
+    bottom: 70px;
+    /* left: 50%; */
+    /* transform: translateX(-50%); */
+    justify-content: center;
+    width: 100%;
+}
+
+#popup-container .but{
+    border-radius: 50%;
+    margin: 0 8px;
+    background-color: var(--main-color);
+    color: white;
+}
+
