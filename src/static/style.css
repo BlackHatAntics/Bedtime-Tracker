@@ -1,5 +1,6 @@
 :root{
     --main-color: #065F46;
+    --light-colour: #D1FAE5;
     --margin: 16px;
     --padding: 8px;
     --black: #0A0A0A;
@@ -17,6 +18,8 @@ body{
     margin: 0;
     padding: 16px;
     text-align: center;
+    /* width: 100%; */
+    position: relative;
 }
 #navbar h4{
     margin: 0;
@@ -161,3 +164,19 @@ li + li{
     color: white;
 }
 
+#datepickerdiv{
+    margin: auto;
+    width: 80%;
+}
+
+#header-but{
+    background-color: #0A0A0A;
+    color: white;
+    position: absolute;
+    left: 8px;
+    top: 50%;
+    transform: translateY(-51%);
+}
+#header-but:hover, #header-but:focus{
+    background-color: var(--main-color);
+}
