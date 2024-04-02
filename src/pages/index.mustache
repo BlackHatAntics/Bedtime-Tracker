@@ -42,6 +42,7 @@
     <ul>
       {{#entries}}
         <li class="entry" onclick="toggleNote(event);">
+          <div class="edit-button"></div>
           <div class="entry-content">
             <span id="time">{{time}}</span>
             <span class="note" data-fullnote="{{note}}">{{note}}</span>

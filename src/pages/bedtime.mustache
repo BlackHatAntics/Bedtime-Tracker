@@ -1,59 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <title>Bedtime Tracker</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="Track your bedtimes and see the data graphed over time"
-    />
+    <meta name="description" content="Track your bedtimes and see the data graphed over time" />
     <meta property="og:title" content="Bedtime Tracker" />
-    <meta
-      property="og:description"
-      content="Track your bedtimes and see the data graphed over time"
-    />
-    <meta property="og:image" content="/bed.png" />    
+    <meta property="og:description" content="Track your bedtimes and see the data graphed over time" />
+    <meta property="og:image" content="/bed.png" />
     <link rel="icon" href="/bed.png" type="image/x-icon" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous"> 
-    <link rel="stylesheet" href="datepicker.css">
-    <link rel="stylesheet" href="style.css">
-  </head>
 
-  <body>
+    <!-- Bootstrap CSS (Only if you're using Bootstrap components outside of Tempus Dominus) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Fontawesome-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous">
+    <!-- Popperjs -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" crossorigin="anonymous"></script>
+    {{! <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script> }}
+    <!-- Tempus Dominus JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/@eonasdan/tempus-dominus@6.9.4/dist/js/tempus-dominus.min.js" crossorigin="anonymous"></script>
+
+    <!-- Tempus Dominus Styles -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@eonasdan/tempus-dominus@6.9.4/dist/css/tempus-dominus.min.css" crossorigin="anonymous">
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="tempusdominus.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
     <!--NAVBAR-->
     <div id="navbar">
-      <a id="header-but" class="btn" href="/"><--</a>
-      <h4>Bedtime Tracker</h4>
+        <a id="header-but" class="btn" href="/"><--</a>
+        <h4>Bedtime Tracker</h4>
     </div>
 
-    <p>Bedtime: {{day}}<p>
+    <!--<p>Bedtime: {{day}}<p>-->
 
-
-    <div class="input-group date" id="datepickerdiv">
-      <input type="text" class="form-control datepicker" id="datepickerid">
-        <div class="input-group-addon">
-          <span class="glyphicon glyphicon-th"></span>
+    <!-- Tempus Dominus Date Picker -->
+    <div class="col-sm-12" id="datepickerdiv">
+      <div class="row datetimerows">
+        {{! <span class="form-label">Date</span> }}
+        <div class="input-group" id="datepicker">
+          <input id="datepickerInput" type="text" class="form-control">
+          {{! <span class="input-group-text" data-td-target="#datepicker" data-td-toggle="datepicker">
+            <i class="fas fa-calendar"></i>
+          </span> }}
         </div>
+      </div>
     </div>
 
-    <script src="bootstrap-datepicker.min.js"></script>
-    <script>
-      $(document).ready(function(){
-        var today = new Date();
-        today = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-        var yesterday = new Date(today);
-        yesterday.setDate(today.getDate() - 1);
+    <!-- Tempus Dominus Time Picker -->
+    <div class="container col-sm-12" id="timepickerdiv">
+      <div class="row datetimerows" id="row1">
+        <div class="log-event" id="timepicker"></div>
+        {{! <span class="form-label">Bedtime</span> }}
+        <input type="text" id="timepickerInput" class="form-control">
+        <div id="checkboxdiv">
+          <input type="checkbox" id="timeCheckbox">
+          <label for="timeCheckbox">Mark as "attempt"</label>
+        </div>
+      </div>
+    </div>
 
-        var setDateTo = today.getHours() < 12 ? yesterday : today;
+    <!--Note-->
+    <textarea id="note" maxlength="255"></textarea>
+    <div id="charCount">0/255</div>
 
-        $('.datepicker').datepicker({
-          autoclose: true,
-          todayHighlight: true,
-          endDate: today
-        }).datepicker('setDate', setDateTo);
-      });
-    </script>
-  </body>
+    <!-- Tempus Dominus Script -->
+    <script src="datetime.js"></script>
+</body>
 </html>

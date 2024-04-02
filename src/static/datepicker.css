@@ -1,13 +1,19 @@
-.datepicker {
+/* this is an outdated page. delete it */
+
+.datepicker, .timePicker {
   padding: 8px;
   direction: ltr;
+  margin: 24px 0;
 }
-#datepickerid{ /*I needed more specificity*/
+#datepickerid, #timepickerid{ /*I needed more specificity*/
   border-radius: 6px;
 }
-.datepicker:focus {
+.datepicker:focus, .timePicker:focus {
   box-shadow: 0 0 0.3rem 0.3rem var(--light-colour);
   border-color: var(--light-colour);
+}
+#inlineTimePicker{
+  padding: 0;
 }
 .datepicker-inline {
   width: 220px;
@@ -82,7 +88,7 @@
   user-select: none;
 }
 .datepicker td,
-.datepicker th {
+.datepicker th{
   text-align: center;
   width: 36px;
   height: 36px;

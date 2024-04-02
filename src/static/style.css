@@ -4,6 +4,13 @@
     --margin: 16px;
     --padding: 8px;
     --black: #0A0A0A;
+    --dark-grey: #262626;
+    --light-grey: #E5E7EB;
+    --blue: #1E40AF;
+}
+/* *, */body, div{
+    /* background-color: var(--dark-grey); */
+    /* color: white; */
 }
 body{
     margin: 0;
@@ -33,14 +40,15 @@ body{
     padding-bottom: 2px; /*have to do this because it's offset by 14, and my default margin is 16*/
 }
 #graph{
+    background-color: var(--black); /*This defaults to black so it doesn't look weird while the image is still loading*/
     background-image: linear-gradient(
     to bottom, 
     /* black 0%,  */
     /* #14275f 20%,  */
-    #1E40AF 0%,
+    var(--blue) 0%,
     #3369ff00 40%, 
     #3369ff00 60%, 
-    #1E40AF 100%
+    var(--blue) 100%
     /* #081027 95% */
     /* black 100% */
   ),
@@ -93,6 +101,9 @@ li + li{
 /* li:nth-child(even){
     background-color: #D1FAE5;
 } */
+.entry{
+    position: relative;
+}
 .entry-content {
     display: flex;
     justify-content: space-between;
@@ -111,6 +122,19 @@ li + li{
     flex-grow: 1;
     overflow-wrap: break-word;
     /* hyphens: auto; */ /*Use this only if the users want. but it makes it hyphenate too frequently imo*/
+}
+.edit-button{
+    border-bottom: 2px solid var(--main-color);
+    border-left: 2px solid var(--main-color);
+    border-right: none;
+    border-top: none;
+    border-radius: 6px;
+    height: 18px;
+    width: 18px;
+    background-color: #ECFDF5;
+    right: 0;
+    top: 0;
+    position: absolute;
 }
 
 #footer{
@@ -162,11 +186,6 @@ li + li{
     margin: 0 8px;
     background-color: var(--main-color);
     color: white;
-}
-
-#datepickerdiv{
-    margin: auto;
-    width: 80%;
 }
 
 #header-but{

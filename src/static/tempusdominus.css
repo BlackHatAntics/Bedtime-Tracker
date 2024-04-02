@@ -1,0 +1,156 @@
+:root{
+    --td-dark-active-bg: var(--main-color);
+    --td-active-bg: var(--main-color);
+    /* --bs-body-color: red;
+    --td-alternate-color: red;
+    --td-font-color: red;
+    --td-dark-active-border-color: red;
+    --td-dark-primary-border-color: red;
+    --td-dow-color: red;
+    --td-secondary-border-color-rgba: red;
+    --bs-border-color-translucent: red;
+    --bs-body-color-rgb: red; */
+}
+#timepickerdiv, #datepickerdiv{
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    width: 90%;
+    margin: 24px auto;
+}
+.datetimerows{
+    width: 100%;
+}
+#timepicker, #datepicker{
+    padding: 0;
+    width: 100%;
+    /* height: 300px; */
+    /* line-height: 90px; */
+}
+.form-label{
+    font-size: 0.8em;
+    color: grey;
+    margin: 0;
+}
+.form-control{
+    padding: 12px;
+    font-size: 18px;
+}
+.form-control:focus, #note:focus{
+    box-shadow: 0 0 0.3rem 0.3rem var(--light-colour);
+    border-color: var(--light-colour);
+    outline: 2px solid var(--light-colour);
+}
+#row1 .form-control{
+    /* margin-top: 8px; */
+}
+.tempus-dominus-widget{ /* This only affects the datepicker*/
+    width: 90%;
+}
+body .tempus-dominus-widget .date-container-days .day.active{ /* This only affects the datepicker*/
+    /* background-color: green !important; */
+    /* color: red; */
+}
+#timepicker .time-container-clock{
+    /* height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around; */
+}
+.minute{
+    /* line-height: 90px; */
+}
+#checkboxdiv{
+    display: inline-flex;
+    align-items: center;
+    margin: -1px 0 8px;
+    padding: 0;
+    box-sizing: border-box;
+    justify-content: left;
+    color: gray;
+    font-size: 0.92em;
+}
+[type="checkbox"]{
+    height: 16px;
+    width: 16px;
+    margin-right: 7px;
+}
+.additional-input-div{
+    padding: 0;
+}
+#additionalTimepickerInput{
+    background-color: var(--light-grey);
+    margin-bottom: -1px;
+}
+.additional-input-div [type="checkbox"]{
+    margin-bottom: 8px;
+    /* margin-top: -2px; */
+}
+[type="checkbox"]{
+
+}
+
+.tempus-dominus-widget.inline.show .time-container{
+    margin: 0;
+    padding: 16px 0;
+    /* height: auto; */
+}
+
+.tempus-dominus-widget.inline.show {
+    width: 100%;
+    /* height: auto; */
+    /* box-sizing: border-box; */
+    /* width: auto; */
+    /* min-width: 100%; */
+    /* padding: 1rem; */
+}
+/* Common styles for increment/decrement arrows, toggle button, and hour/minute selections */
+.tempus-dominus-widget.inline.show [data-action="incrementHours"],
+.tempus-dominus-widget.inline.show [data-action="incrementMinutes"],
+.tempus-dominus-widget.inline.show [data-action="decrementHours"],
+.tempus-dominus-widget.inline.show [data-action="decrementMinutes"],
+.tempus-dominus-widget.inline.show .toggleMeridiem,
+.tempus-dominus-widget.inline.show [data-action="selectHour"],
+.tempus-dominus-widget.inline.show [data-action="selectMinute"],
+.tempus-dominus-widget.inline.show [data-time-component="hours"],
+.tempus-dominus-widget.inline.show [data-time-component="minutes"],
+.tempus-dominus-widget.inline.show .hour,
+.tempus-dominus-widget.inline.show .minute,
+.tempus-dominus-widget.inline.show .separator {
+    height: 56px;
+    width: 56px;
+    font-size: 18px;
+    /* display: flex; */
+    /* text-align: center; */
+}
+
+/* Optional: Adjust the grid layout for hour and minute selection */
+.tempus-dominus-widget.inline.show .time-container-hour,
+.tempus-dominus-widget.inline.show .time-container-minute,
+.tempus-dominus-widget.inline.show .time-container-clock {
+    /* display: flex; */
+    /* grid-template-columns: repeat(4, auto); */
+    gap: 16px;
+    align-items: center;
+    justify-content: space-around;
+    /* text-align: center; */
+}
+
+.fa-solid{ /* this affects the arrows */
+    color: gray;
+}
+
+#note{
+    display: block;
+    margin: 0 auto;
+    width: 90%;
+    height: 100px;
+}
+
+#charCount {
+    text-align: right;
+    margin: 0 auto;
+    width: 90%;
+    font-size: 0.8em;
+    color: grey;
+}

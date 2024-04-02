@@ -42,7 +42,7 @@ function toggleNote(event) {
       noteSpan.classList.remove('expanded');
   } else {
       // Expand: Allow it to wrap
-      noteSpan.style.whiteSpace = "normal"; // Allow wrapping
+      noteSpan.style.whiteSpace = "normal";
       noteSpan.style.overflow = "visible";
       noteSpan.style.textOverflow = "clip";
       entryContent.style.flexDirection = "column";

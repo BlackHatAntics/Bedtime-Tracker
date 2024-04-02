@@ -61,6 +61,12 @@ app.get('/bedtime', (req, res) => {
     const day = req.query.day;
     res.render('bedtime', { day: day });
 });
+app.get('/test', (req, res) => {
+    res.render('test');
+})
+app.get('/test2', (req, res) => {
+    res.render('test2');
+})
 // app.get('/jobs/:id', (req, res) => {
 //     const id = req.params.id;
 //     const matchedJob = JOBS.find(job => job.id.toString() === id);
