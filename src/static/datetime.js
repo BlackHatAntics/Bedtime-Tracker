@@ -129,3 +129,32 @@ document.addEventListener('DOMContentLoaded', function () {
 
   noteTextarea.addEventListener('input', updateCharCount);
 });
+
+//submit button
+document.getElementById('bedtimeForm').addEventListener('submit', function(e) {
+  e.preventDefault(); // Prevents the default form submission
+
+  const formData = new FormData(e.target);
+  let formProps = Object.fromEntries(formData);
+  formProps.entry_date = moment(formProps.entry_date, 'MMM/DD/YYYY').format('YYYY-MM-DD');
+
+  const additionalTimes = Array.from(document.querySelectorAll('.additionalTimepickerInput')).map(input => input.value);
+  formProps.additionalTimes = additionalTimes;
+
+  fetch('/submit-bedtime', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formProps),
+  })
+  .then(response => response.json())
+  .then(data => {
+      console.log('Success:', data);
+      // Redirect or show a success message
+  })
+  .catch((error) => {
+      console.error('Error:', error);
+      // Handle errors here
+  });
+});

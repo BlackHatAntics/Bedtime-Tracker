@@ -8,6 +8,7 @@ require('dotenv').config();
 
 const app = express();
 app.use(express.static(path.join(__dirname, 'static')));
+app.use(express.json());
 
 // MySQL pool configuration
 const pool = mysql.createPool({
@@ -30,22 +31,71 @@ app.engine('mustache', mustacheExpress(__dirname + '/pages/partials', '.mustache
 // Render the template
 app.get('/', async (req, res) => {
     try {
-        const [rows] = await promisePool.query(
-            "SELECT entry_date, bedtime, note FROM bedtimes WHERE user_id = ? ORDER BY entry_date DESC",
-            [1] // Assuming user_id = 1; replace with dynamic user_id as needed
-        );
-        const formattedEntries = rows.map(row => {
+        const userId = 1; // Assuming user_id = 1; replace with dynamic user ID as needed
+        // Fetch bedtime and attempt data
+        const [bedtimeRows] = await promisePool.query("SELECT entry_date, bedtime, note FROM bedtimes WHERE user_id = ? ORDER BY entry_date DESC", [userId]);
+        const [attemptRows] = await promisePool.query(`
+            SELECT b.entry_date, a.attempt_time 
+            FROM bedtime_attempts a 
+            JOIN bedtimes b ON a.entry_id = b.entry_id 
+            WHERE b.user_id = ? 
+            ORDER BY b.entry_date`, [userId]);
+
+        // Prepare formattedEntries for listing on the page
+        const formattedEntries = bedtimeRows.map(row => {
             const formattedDate = moment(row.entry_date).format('MMM DD, YYYY');
-            const strTime = moment(row.bedtime, 'HH:mm:ss').format('hh:mma'); //12h clock
-            //const strTime = moment(row.bedtime, 'HH:mm:ss').format('HH:mm'); //24h clock
-            const note = row.note;
-            //return `${strTime} — ${formattedDate} ${note}`; //This was my original attempt
-            return { time: `${strTime} — ${formattedDate}`, note: note };
+            const strTime = moment(row.bedtime, 'HH:mm:ss').format('hh:mma');
+            return { time: `${strTime} — ${formattedDate}`, note: row.note };
         });
-        res.render('index', {entries: formattedEntries});
+
+        // Transform bedtime and attempt times
+        const transformTimeToDecimal = (timeString) => {
+            const timeParts = timeString.split(':');
+            const hours = parseInt(timeParts[0], 10);
+            const minutes = parseInt(timeParts[1], 10) / 60;
+            return hours < 12 ? hours + 24 + minutes : hours + minutes;
+        };
+        
+        const transformedBedtimeRows = bedtimeRows.map(row => ({
+            ...row,
+            bedtime: transformTimeToDecimal(row.bedtime)
+        }));
+        
+        const transformedAttemptRows = attemptRows.map(row => ({
+            ...row,
+            attempt_time: transformTimeToDecimal(row.attempt_time)
+        }));
+        
+        // Prepare graphData for the chart
+        const graphData = {
+            labels: transformedBedtimeRows.map(row => moment(row.entry_date).format('YYYY-MM-DD')),
+            datasets: [
+              {
+                label: 'Bedtime',
+                data: transformedBedtimeRows.map(row => ({ x: moment(row.entry_date).format('YYYY-MM-DD'), y: row.bedtime })),
+                borderColor: 'rgb(75, 192, 192)',
+                    backgroundColor: 'rgb(75, 192, 192)',
+                    tension: 0.1,
+                    pointRadius: 3.1,
+                    pointHoverRadius: 5
+                },
+                {
+                    label: 'Attempt time',
+                    data: transformedAttemptRows.map(row => ({ x: moment(row.entry_date).format('YYYY-MM-DD'), y: row.attempt_time })),
+                    borderColor: 'grey'/*'rgb(255, 99, 132)'*/,
+                    backgroundColor: 'grey'/*'rgb(255, 99, 132)'*/,
+                    showLine: false,
+                    pointRadius: 3.1,
+                    pointHoverRadius: 5
+                }
+            ]
+        };
+
+        // Render the page with both formattedEntries and graphData
+        res.render('index', { entries: formattedEntries, graphData: JSON.stringify(graphData) });
     } catch (error) {
-        console.error('Error fetching bedtimes:', error);
-        res.render('index', {error: 'Error fetching bedtimes'});
+        console.error('Error:', error);
+        res.render('index', { error: 'Error fetching data' });
     }
 });
 app.get('/graph', (req, res) => {
@@ -71,6 +121,32 @@ app.get('/test2', (req, res) => {
 //     const id = req.params.id;
 //     const matchedJob = JOBS.find(job => job.id.toString() === id);
 //     res.render('job', { job: matchedJob});
+app.post('/submit-bedtime', async (req, res) => {
+    const { entry_date, bedtime, note, additionalTimes } = req.body;
+
+    const userId = 1;// Placeholder, use actual user ID
+
+    try {
+        // Insert into bedtimes table
+        const [bedtimeResult] = await promisePool.query('INSERT INTO bedtimes (user_id, entry_date, bedtime, note) VALUES (?, ?, ?, ?)', [userId, entry_date, bedtime, note]);
+        const entryId = bedtimeResult.insertId;
+        console.log('Insert bedtime result:', bedtimeResult);
+
+        // Handle additionalTimes for bedtime attempts
+        if (additionalTimes && additionalTimes.length > 0) {
+            for (const attemptTime of additionalTimes) {
+                await promisePool.query('INSERT INTO bedtime_attempts (entry_id, attempt_time) VALUES (?, ?)', [entryId, attemptTime]);
+            }
+            console.log('Bedtime attempts inserted successfully');
+        }
+
+        res.json({ success: true, message: 'Data and bedtime attempts submitted successfully.' });
+    } catch (error) {
+        console.error('Error inserting data:', error);
+        res.status(500).json({ success: false, message: 'Internal server error' });
+    }
+});
+
 
 const port = process.env.PORT || 3000;
 

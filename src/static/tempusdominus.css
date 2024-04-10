@@ -154,3 +154,14 @@ body .tempus-dominus-widget .date-container-days .day.active{ /* This only affec
     font-size: 0.8em;
     color: grey;
 }
+
+#submit-button{
+    display: block;
+    background-color: var(--main-color);
+    color: white;
+    margin: 24px auto 0;
+    width: 40%;
+    padding: 8px;
+    border-radius: 6px;
+    font-size: 18px;
+}

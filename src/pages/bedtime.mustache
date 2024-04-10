@@ -35,36 +35,43 @@
 
     <!--<p>Bedtime: {{day}}<p>-->
 
-    <!-- Tempus Dominus Date Picker -->
-    <div class="col-sm-12" id="datepickerdiv">
-      <div class="row datetimerows">
-        {{! <span class="form-label">Date</span> }}
-        <div class="input-group" id="datepicker">
-          <input id="datepickerInput" type="text" class="form-control">
-          {{! <span class="input-group-text" data-td-target="#datepicker" data-td-toggle="datepicker">
-            <i class="fas fa-calendar"></i>
-          </span> }}
+    <form id="bedtimeForm">
+      <!-- Tempus Dominus Date Picker -->
+      <div class="col-sm-12" id="datepickerdiv">
+        <div class="row datetimerows">
+          {{! <span class="form-label">Date</span> }}
+          <div class="input-group" id="datepicker">
+            <input id="datepickerInput" type="text" class="form-control" name="entry_date">
+            {{! <span class="input-group-text" data-td-target="#datepicker" data-td-toggle="datepicker">
+              <i class="fas fa-calendar"></i>
+            </span> }}
+          </div>
         </div>
       </div>
-    </div>
 
-    <!-- Tempus Dominus Time Picker -->
-    <div class="container col-sm-12" id="timepickerdiv">
-      <div class="row datetimerows" id="row1">
-        <div class="log-event" id="timepicker"></div>
-        {{! <span class="form-label">Bedtime</span> }}
-        <input type="text" id="timepickerInput" class="form-control">
-        <div id="checkboxdiv">
-          <input type="checkbox" id="timeCheckbox">
-          <label for="timeCheckbox">Mark as "attempt"</label>
+      <!-- Tempus Dominus Time Picker -->
+      <div class="container col-sm-12" id="timepickerdiv">
+        <div class="row datetimerows" id="row1">
+          <div class="log-event" id="timepicker"></div>
+          {{! <span class="form-label">Bedtime</span> }}
+          <input type="text" id="timepickerInput" class="form-control" name="bedtime">
+          <div id="checkboxdiv">
+            <input type="checkbox" id="timeCheckbox">
+            <label for="timeCheckbox">Mark as "attempt"</label>
+          </div>
         </div>
       </div>
-    </div>
 
-    <!--Note-->
-    <textarea id="note" maxlength="255"></textarea>
-    <div id="charCount">0/255</div>
+      <!--Note-->
+      <textarea id="note" maxlength="255" name="note"></textarea>
+      <div id="charCount">0/255</div>
 
+      <!--Submit button-->
+      <button type="submit" id="submit-button">Submit</button>
+    </form>
+
+    <!-- Moment Script -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <!-- Tempus Dominus Script -->
     <script src="datetime.js"></script>
 </body>
