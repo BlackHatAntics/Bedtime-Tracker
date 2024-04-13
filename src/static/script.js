@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {  
+document.addEventListener('DOMContentLoaded', () => {
   const graphData = JSON.parse(document.getElementById('graphData').textContent);
   const ctx = document.getElementById('bedtimeChart').getContext('2d');
   chart = new Chart(ctx, {
@@ -93,6 +93,17 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
+//edit button
+const editButtons = document.querySelectorAll('.edit-button');
+
+    editButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const entryId = this.getAttribute('data-entry-id');
+            window.location.href = `/bedtime?entryId=${entryId}`;
+        });
+    });
+
+//month shit
 const months = [
   'January', 'February', 'March', 'April', 'May', 'June',
   'July', 'August', 'September', 'October', 'November', 'December'

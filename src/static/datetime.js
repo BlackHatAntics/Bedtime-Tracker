@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function () {
     display: {
       viewMode: 'clock',
       inline: true,
-      theme: 'dark',
+      theme: 'light',
       components: {
         decades: false,
         year: false,
@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function () {
       viewMode: 'calendar',
       inline: false,
       //useTwentyfourHour: undefined,
-      theme: 'dark',
+      theme: 'light',
       keepOpen: false,
       components: {
         decades: false,
@@ -132,8 +132,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 //submit button
 document.getElementById('bedtimeForm').addEventListener('submit', function(e) {
-  e.preventDefault(); // Prevents the default form submission
-
+  e.preventDefault();
   const formData = new FormData(e.target);
   let formProps = Object.fromEntries(formData);
   formProps.entry_date = moment(formProps.entry_date, 'MMM/DD/YYYY').format('YYYY-MM-DD');
@@ -141,14 +140,21 @@ document.getElementById('bedtimeForm').addEventListener('submit', function(e) {
   const additionalTimes = Array.from(document.querySelectorAll('.additionalTimepickerInput')).map(input => input.value);
   formProps.additionalTimes = additionalTimes;
 
-  fetch('/submit-bedtime', {
-      method: 'POST',
-      headers: {
-          'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(formProps),
+  //Use these if you want to have both PUT and POST. But rn I'm only using POST
+  // const endpoint = formProps.entryId ? `/update-bedtime/${formProps.entryId}` : '/submit-bedtime';
+  // const method = formProps.entryId ? 'PUT' : 'POST';
+  //And use these if you are only going to use POST:
+  const endpoint = '/submit-bedtime';
+  const method = 'POST';
+
+  fetch(endpoint, {
+    method: method,
+    headers: {
+        'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(formProps),
   })
-  .then(response => response.json())
+   .then(response => response.json()) //re-enable after testing
   .then(data => {
       console.log('Success:', data);
       // Redirect or show a success message

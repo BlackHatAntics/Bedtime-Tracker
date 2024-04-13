@@ -41,7 +41,7 @@
         <div class="row datetimerows">
           {{! <span class="form-label">Date</span> }}
           <div class="input-group" id="datepicker">
-            <input id="datepickerInput" type="text" class="form-control" name="entry_date">
+            <input id="datepickerInput" type="text" class="form-control" name="entry_date" value="{{entryData.entry_date}}">
             {{! <span class="input-group-text" data-td-target="#datepicker" data-td-toggle="datepicker">
               <i class="fas fa-calendar"></i>
             </span> }}
@@ -54,7 +54,7 @@
         <div class="row datetimerows" id="row1">
           <div class="log-event" id="timepicker"></div>
           {{! <span class="form-label">Bedtime</span> }}
-          <input type="text" id="timepickerInput" class="form-control" name="bedtime">
+          <input type="text" id="timepickerInput" class="form-control" name="bedtime" value="{{entryData.bedtime}}">
           <div id="checkboxdiv">
             <input type="checkbox" id="timeCheckbox">
             <label for="timeCheckbox">Mark as "attempt"</label>
@@ -63,9 +63,11 @@
       </div>
 
       <!--Note-->
-      <textarea id="note" maxlength="255" name="note"></textarea>
+      <textarea id="note" maxlength="255" name="note">{{entryData.note}}</textarea>
       <div id="charCount">0/255</div>
 
+      <!---->
+      <input type="hidden" name="entryId" value="{{entryData.entry_id}}">
       <!--Submit button-->
       <button type="submit" id="submit-button">Submit</button>
     </form>

@@ -33,7 +33,7 @@ app.get('/', async (req, res) => {
     try {
         const userId = 1; // Assuming user_id = 1; replace with dynamic user ID as needed
         // Fetch bedtime and attempt data
-        const [bedtimeRows] = await promisePool.query("SELECT entry_date, bedtime, note FROM bedtimes WHERE user_id = ? ORDER BY entry_date DESC", [userId]);
+        const [bedtimeRows] = await promisePool.query("SELECT entry_date, bedtime, note, entry_id FROM bedtimes WHERE user_id = ? ORDER BY entry_date DESC", [userId]);
         const [attemptRows] = await promisePool.query(`
             SELECT b.entry_date, a.attempt_time 
             FROM bedtime_attempts a 
@@ -45,7 +45,7 @@ app.get('/', async (req, res) => {
         const formattedEntries = bedtimeRows.map(row => {
             const formattedDate = moment(row.entry_date).format('MMM DD, YYYY');
             const strTime = moment(row.bedtime, 'HH:mm:ss').format('hh:mma');
-            return { time: `${strTime} — ${formattedDate}`, note: row.note };
+        return { time: `${strTime} — ${formattedDate}`, note: row.note, id:row.entry_id };
         });
 
         // Transform bedtime and attempt times
@@ -107,10 +107,22 @@ app.get('/stats', (req, res) => {
 app.get('/settings', (req, res) => {
     res.render('settings');
 })
-app.get('/bedtime', (req, res) => {
-    const day = req.query.day;
-    res.render('bedtime', { day: day });
-});
+app.get('/bedtime', async (req, res) => {
+    const { entryId } = req.query;
+    let entryData = {};
+  
+    if (entryId) {
+      const [rows] = await promisePool.query('SELECT * FROM bedtimes WHERE entry_id = ?', [entryId]);
+      if (rows.length > 0) {
+        entryData = rows[0];
+        // Convert dates and times to the correct format if necessary
+        entryData.entry_date = moment(entryData.entry_date).format('MMM/DD/YYYY');
+        // Ensure time format is correct for entryData.bedtime
+      }
+    }
+    console.log(entryData); //delete
+    res.render('bedtime', { entryData: entryData });
+  });
 app.get('/test', (req, res) => {
     res.render('test');
 })
@@ -122,28 +134,41 @@ app.get('/test2', (req, res) => {
 //     const matchedJob = JOBS.find(job => job.id.toString() === id);
 //     res.render('job', { job: matchedJob});
 app.post('/submit-bedtime', async (req, res) => {
-    const { entry_date, bedtime, note, additionalTimes } = req.body;
+    console.log("Received data:", req.body);
+    const { entry_date, bedtime, note, additionalTimes, entryId } = req.body;
+    const userId = 1; // Use actual user ID
 
-    const userId = 1;// Placeholder, use actual user ID
-
-    try {
-        // Insert into bedtimes table
-        const [bedtimeResult] = await promisePool.query('INSERT INTO bedtimes (user_id, entry_date, bedtime, note) VALUES (?, ?, ?, ?)', [userId, entry_date, bedtime, note]);
-        const entryId = bedtimeResult.insertId;
-        console.log('Insert bedtime result:', bedtimeResult);
-
-        // Handle additionalTimes for bedtime attempts
-        if (additionalTimes && additionalTimes.length > 0) {
-            for (const attemptTime of additionalTimes) {
-                await promisePool.query('INSERT INTO bedtime_attempts (entry_id, attempt_time) VALUES (?, ?)', [entryId, attemptTime]);
-            }
-            console.log('Bedtime attempts inserted successfully');
+    console.log(entryId);
+    if (entryId) {
+        // Update existing entry
+        try {
+            console.log("Updating entry with ID:", entryId);
+            await promisePool.query('UPDATE bedtimes SET entry_date = ?, bedtime = ?, note = ? WHERE entry_id = ?', [entry_date, bedtime, note, entryId]);
+            res.json({ success: true, message: 'Entry updated successfully.' });
+        } catch (error) {
+            console.error('Error updating entry:', error);
+            res.status(500).json({ success: false, message: 'Internal server error' });
         }
+    } else {
+        // Insert new entry
+        try {
+            console.log("Inserting new entry.");
+            const [bedtimeResult] = await promisePool.query('INSERT INTO bedtimes (user_id, entry_date, bedtime, note) VALUES (?, ?, ?, ?)', [userId, entry_date, bedtime, note]);
+            const entryId = bedtimeResult.insertId;
+            console.log('Insert bedtime result:', bedtimeResult);
 
-        res.json({ success: true, message: 'Data and bedtime attempts submitted successfully.' });
-    } catch (error) {
-        console.error('Error inserting data:', error);
-        res.status(500).json({ success: false, message: 'Internal server error' });
+            if (additionalTimes && additionalTimes.length > 0) {
+                for (const attemptTime of additionalTimes) {
+                    await promisePool.query('INSERT INTO bedtime_attempts (entry_id, attempt_time) VALUES (?, ?)', [entryId, attemptTime]);
+                }
+                console.log('Bedtime attempts inserted successfully');
+            }
+
+            res.json({ success: true, message: 'Data and bedtime attempts submitted successfully.' });
+        } catch (error) {
+            console.error('Error inserting data:', error);
+            res.status(500).json({ success: false, message: 'Internal server error' });
+        }
     }
 });
 
