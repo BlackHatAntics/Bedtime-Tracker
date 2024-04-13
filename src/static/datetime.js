@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function () {
     return `${hours}:${minutes.toString().padStart(2, '0')}`;
   };
 
-  
+  const existingTime = document.getElementById('timepickerInput').value;
   const tp = new tempusDominus.TempusDominus(document.getElementById('timepicker'), {
     display: {
       viewMode: 'clock',
@@ -31,12 +31,19 @@ document.addEventListener('DOMContentLoaded', function () {
     //  format: 'h:mm t'
     //}
   });
+  // Set initial value based on existing data or current time
+  if (existingTime) {
+    const parsedDate = tp.dates.parseInput(moment(existingTime, 'H:mm').toDate());
+    tp.dates.setValue(parsedDate);
+    document.getElementById('timepickerInput').value = moment(parsedDate).format('HH:mm');
+  } else {
+    document.getElementById('timepickerInput').value = formatTime(now);
+  }
+
   tp.subscribe(tempusDominus.Namespace.events.change, (e) => {
     document.getElementById('timepickerInput').value = e.date.format('H:mm');
   });
-  //setting initial value in textbox
-  document.getElementById('timepickerInput').value = formatTime(now);
-
+  
   new tempusDominus.TempusDominus(document.getElementById('datepicker'), {
     defaultDate: setDateTo,
     display: {
