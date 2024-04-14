@@ -142,6 +142,22 @@ app.get('/test2', (req, res) => {
 //     const id = req.params.id;
 //     const matchedJob = JOBS.find(job => job.id.toString() === id);
 //     res.render('job', { job: matchedJob});
+
+//ONLY FOR TESTING!! PLEASE DELETE
+app.get('/test-db', async (req, res) => {
+    try {
+        const [rows] = await promisePool.query('SELECT 1');
+        if (rows) {
+            res.send('Database connection successful!');
+        } else {
+            res.send('Failed to fetch data from the database.');
+        }
+    } catch (error) {
+        console.error('Database connection failed:', error);
+        res.status(500).send('Database connection failed: ' + error.message);
+    }
+});
+
 app.post('/submit-bedtime', async (req, res) => {
     console.log("Received data:", req.body);
     const { entry_date, bedtime, note, additionalTimes, entryId } = req.body;
