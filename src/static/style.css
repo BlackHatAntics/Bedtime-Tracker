@@ -209,3 +209,15 @@ li + li{
 #header-but:hover, #header-but:focus{
     background-color: var(--main-color);
 }
+
+.butFoot{
+    margin-top: 4px;
+    flex-direction: column;
+    flex-wrap: nowrap;
+}
+
+.butText{
+    font-size: 0.6rem;
+    color: rgb(192, 192, 192);
+    margin-top: -3px;
+}
