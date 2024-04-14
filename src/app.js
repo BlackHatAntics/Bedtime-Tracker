@@ -28,8 +28,7 @@ app.set('views', `${__dirname}/pages`);
 app.set('view engine', 'mustache');
 app.engine('mustache', mustacheExpress(__dirname + '/pages/partials', '.mustache'));
 
-// Render the template
-app.get('/', async (req, res) => {
+async function fetchGraphData(userId) {
     try {
         const userId = 1; // Assuming user_id = 1; replace with dynamic user ID as needed
         // Fetch bedtime and attempt data
@@ -90,16 +89,26 @@ app.get('/', async (req, res) => {
                 }
             ]
         };
-
-        // Render the page with both formattedEntries and graphData
-        res.render('index', { entries: formattedEntries, graphData: JSON.stringify(graphData) });
+  
+      return { entries: formattedEntries, graphData: JSON.stringify(graphData) }; // return both entries and graph data
     } catch (error) {
-        console.error('Error:', error);
-        res.render('index', { error: 'Error fetching data' });
+      console.error('Error fetching graph data:', error);
+      return { error: 'Failed to fetch data' };
     }
+  }
+  
+
+// Render the template
+app.get('/', async (req, res) => {
+        
+    const graphContent = await fetchGraphData(1); // Assuming user ID is 1
+    res.render('index', graphContent);
+        // Render the page with both formattedEntries and graphData
+        // res.render('index', { entries: formattedEntries, graphData: JSON.stringify(graphData) });
 });
-app.get('/graph', (req, res) => {
-    res.render('graph');
+app.get('/graph', async (req, res) => {
+    const graphContent = await fetchGraphData(1); // Assuming user ID is 1
+    res.render('graph', graphContent);
 })
 app.get('/stats', (req, res) => {
     res.render('stats');
