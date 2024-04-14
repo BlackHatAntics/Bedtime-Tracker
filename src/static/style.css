@@ -42,7 +42,7 @@ body{
 #graph-container2{
     width: 100%;
     /* height: 100vh; */
-    height: calc(100vh - 48px - 48px - 10px); /*fix*/
+    height: calc(100vh - 48px); /*fix*/
     /*48 for body padding, 48 for footer height, and the 10 is inaccurate, and seems to be percentage based. but idk where it's coming from. 10px is close enough for now*/
 }
 #graph, #graph2{
