@@ -135,6 +135,11 @@ document.addEventListener('DOMContentLoaded', function () {
   updateCharCount();
 
   noteTextarea.addEventListener('input', updateCharCount);
+
+  //submit button text
+if (existingTime) {
+  document.getElementById('submit-button').textContent = 'Modify';
+}
 });
 
 //submit button

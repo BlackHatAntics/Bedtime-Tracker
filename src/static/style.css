@@ -40,6 +40,7 @@ body{
     padding-bottom: 2px; /*have to do this because it's offset by 14, and my default margin is 16*/
 }
 #graph-container2{
+    width: 100%;
     /* height: 100vh; */
     height: calc(100vh - 48px - 48px - 10px); /*fix*/
     /*48 for body padding, 48 for footer height, and the 10 is inaccurate, and seems to be percentage based. but idk where it's coming from. 10px is close enough for now*/
