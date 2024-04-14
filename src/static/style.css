@@ -139,8 +139,8 @@ li + li{
     border-right: none;
     border-top: none;
     border-radius: 6px;
-    height: 18px;
-    width: 18px;
+    height: 19px; /*originally 18px*/
+    width: 19px; /*originally 18px*/
     background-color: #ECFDF5;
     right: 0;
     top: 0;
