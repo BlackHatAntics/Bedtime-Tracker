@@ -136,9 +136,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
   noteTextarea.addEventListener('input', updateCharCount);
 
-  //submit button text
+  //submit button and header text
 if (existingTime) {
-  document.getElementById('submit-button').textContent = 'Modify';
+  // document.getElementById('submit-button').textContent = 'Modify';
+  document.getElementById('headerText').textContent = 'Modify entry';
 }
 });
 
