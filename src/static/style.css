@@ -152,12 +152,20 @@ li + li{
     height: 48px;
     color: white;
     /* align-items: center; */
-    justify-content: space-evenly;
+    justify-content: center;
     position: fixed;
     bottom: 0;
     display: flex;
     padding: 0;
     /* width: 100%; */
+}
+#footer-container{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    /* margin: 0 16px; */
+    /* justify-content: space-between; */
+    justify-content: space-evenly;
 }
 #footer .btn{
     display: flex;
@@ -211,7 +219,7 @@ li + li{
 }
 
 .butFoot{
-    margin-top: 4px;
+    padding-top: 10px;
     flex-direction: column;
     flex-wrap: nowrap;
 }
