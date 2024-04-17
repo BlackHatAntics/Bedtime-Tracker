@@ -46,6 +46,7 @@
 }
 .tempus-dominus-widget{ /* This only affects the datepicker*/
     width: 90%;
+    box-shadow: none;
 }
 body .tempus-dominus-widget .date-container-days .day.active{ /* This only affects the datepicker*/
     /* background-color: green !important; */
@@ -164,4 +165,20 @@ body .tempus-dominus-widget .date-container-days .day.active{ /* This only affec
     padding: 8px;
     border-radius: 6px;
     font-size: 18px;
+}
+
+.tempus-dominus-widget, #note, .input-group{
+    border: 2px solid var(--main-color);
+    border-radius: 6px;
+}
+#timepickerInput{
+    border-top: none;
+    border-right: 2px solid var(--main-color);
+    border-left: 2px solid var(--main-color);
+    border-bottom: 2px solid var(--main-color);
+    border-radius: 6px;
+}
+
+#timepickerInput:focus{
+    border: none;
 }
